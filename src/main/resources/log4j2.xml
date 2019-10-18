@@ -1,0 +1,21 @@
+<Configuration status="info">
+    <Appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%p] [%d{YYYY-MM-dd HH:mm:ss} %c{3\} %t] - %m%n"/>
+        </Console>
+        <File name="log_file" filename="logs/root.log">
+            <PatternLayout pattern="[%p] [%d{YYYY-MM-dd HH:mm:ss} %c{3\} %t] - %m%n"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <Appender-ref ref="console"/>
+        </Root>
+        <Logger name="consoleLogger" level="info" additivity="true">
+            <Appender-ref ref="log_file"/>
+        </Logger>
+    </Loggers>
+</Configuration>
+<!--
+共有8个级别 ALL, trace, debug, info, warn, error, fatal, OFF
+-->
