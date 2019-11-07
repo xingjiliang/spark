@@ -1,0 +1,26 @@
+[
+  {
+    "long_name":"input-data-path",
+    "short_name":"i",
+    "has_arg":true,
+    "desc":"input-data-path"
+  },
+  {
+    "long_name":"output-data-path",
+    "short_name":"o",
+    "has_arg":true,
+    "desc":"output-data-path"
+  },
+  {
+    "long_name":"start-date",
+    "short_name":"s",
+    "has_arg":true,
+    "desc":"start date"
+  },
+  {
+    "long_name":"end-date",
+    "short_name":"i",
+    "has_arg":true,
+    "desc":"end date"
+  }
+]

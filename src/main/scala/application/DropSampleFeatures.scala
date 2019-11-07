@@ -2,6 +2,7 @@ package application
 
 
 import configuration.CommandLineArgumentsConfiguration._
+import org.apache.commons.cli.CommandLine
 import org.apache.spark.{SparkConf, SparkContext}
 import org.slf4j.LoggerFactory
 import util.ApplicationArguments.commandLine
@@ -27,8 +28,8 @@ object DropSampleFeatures {
   }
 
   def main(args: Array[String]): Unit = {
-    ApplicationArguments.parseArgs(args)
-    if (!ApplicationArguments.hasAllRequiredOptions(List(INPUT_DATA_PATH, OUTPUT_DATA_PATH, START_DATE, END_DATE, "type"))) {
+    val commandLine = ApplicationArguments.parseArgsToCommandLine(args)
+    if (!ApplicationArguments.hasAllRequiredOptions(commandLine, Set(INPUT_DATA_PATH, OUTPUT_DATA_PATH, START_DATE, END_DATE, "type"))) {
       sys.exit(1)
     }
     sparkConf = new SparkConf().setAppName("spark-demo-98587")

@@ -30,8 +30,8 @@ object GenerateFnnSample {
   }
 
   def main(args: Array[String]): Unit = {
-    ApplicationArguments.parseArgs(args)
-    if (!ApplicationArguments.hasAllRequiredOptions(List(INPUT_DATA_PATH, OUTPUT_DATA_PATH, START_DATE, END_DATE, "type"))) {
+    val commandLine = ApplicationArguments.parseArgsToCommandLine(args)
+    if (!ApplicationArguments.hasAllRequiredOptions(commandLine, Set(INPUT_DATA_PATH, OUTPUT_DATA_PATH, START_DATE, END_DATE, "type"))) {
       sys.exit(1)
     }
     sparkConf = new SparkConf().setAppName("GenerateFnnSample")
@@ -42,7 +42,7 @@ object GenerateFnnSample {
   def jobStart(): Unit = {
     val jsonParser = new JsonParser()
     val element = jsonParser.parse(
-      Source.fromFile(Util.getFileName(commandLine.getOptionValue("config"))).getLines.mkString
+      Source.fromFile(Util.getFileNameFromPath(commandLine.getOptionValue("config"))).getLines.mkString
     )
 
     if (element.isJsonObject) {
@@ -168,7 +168,7 @@ object GenerateFnnSample {
   }
 
   def getCityOrCateMap(filePath: String):Map[String, String] = {
-    Source.fromFile(Util.getFileName(filePath)).getLines.map(line => {
+    Source.fromFile(Util.getFileNameFromPath(filePath)).getLines.map(line => {
       val splitedLineList = line.split("\t")
       (splitedLineList(0), splitedLineList(1))
     }).toMap

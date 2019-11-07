@@ -3,6 +3,7 @@ package util
 import configuration.CommandLineArgumentsConfiguration._
 import org.apache.commons.cli.{CommandLine, Option, OptionBuilder, Options, PosixParser}
 import org.slf4j.LoggerFactory
+import util.ApplicationArguments.commandLine
 
 import scala.collection.JavaConverters
 
@@ -25,12 +26,13 @@ object ApplicationArguments {
     options.addOption(new Option(short, long, hasArg, desc))
   }
 
-  def parseArgs(args: Array[String]): Unit = {
+  def parseArgsToCommandLine(args: Array[String]): CommandLine = {
     try {
       commandLine = new PosixParser().parse(options, args, false)
     } catch {
       case e: Exception => {println("解析参数出错，输入的参数是:\n"+args);help();}
     }
+    commandLine
   }
 
   def help(): Unit = {
@@ -40,18 +42,19 @@ object ApplicationArguments {
     sys.exit(1)
   }
 
-  def hasAllRequiredOptions(requiredOptions: List[String]): Boolean = {
+  def hasAllRequiredOptions(commandLine: CommandLine, requiredOptions: Set[String]): Boolean = {
+    var isValid = true
     requiredOptions.foreach(requiredOption => {
       if (!commandLine.hasOption(requiredOption)) {
-        return false
+        isValid = false
       }
     })
-    return true
+    isValid
   }
 
   def main(args: Array[String]): Unit = {
     val argv = Array[String]("-Dkey1=value1", "-Dkey2=value2")
-    parseArgs(argv)
+    parseArgsToCommandLine(argv)
     JavaConverters.asScalaSetConverter(commandLine.getOptionProperties("D").stringPropertyNames()).asScala.foreach(d => {
       println(d)
     })

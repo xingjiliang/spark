@@ -69,7 +69,7 @@ object DatasetGenerator {
 
   def main(args: Array[String]): Unit = {
     _addOptions()
-    ApplicationArguments.parseArgs(args)
+    ApplicationArguments.parseArgsToCommandLine(args)
     setGlobalVariables()
 
     sparkSession = SparkSession.builder()

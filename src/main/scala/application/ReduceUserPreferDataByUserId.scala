@@ -16,8 +16,8 @@ object ReduceUserPreferDataByUserId {
   private var sparkContext: SparkContext = null
 
   def main(args: Array[String]): Unit = {
-    ApplicationArguments.parseArgs(args)
-    if (!ApplicationArguments.hasAllRequiredOptions(List(INPUT_DATA_PATH, OUTPUT_DATA_PATH))) {
+    val commandLine = ApplicationArguments.parseArgsToCommandLine(args)
+    if (!ApplicationArguments.hasAllRequiredOptions(commandLine, Set(INPUT_DATA_PATH, OUTPUT_DATA_PATH))) {
       sys.exit(1)
     }
 
